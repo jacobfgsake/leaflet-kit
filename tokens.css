@@ -197,6 +197,8 @@
   /* ─── Semantics: Surfaces ─────────────────────────────────────────────────── */
   --surface-card: var(--color-grey-0);
   --surface-card-strong: var(--color-grey-50);
+  --surface-footer: var(--color-grey-0);
+  --surface-header: var(--color-grey-0);
   --surface-highlight: var(--color-yellow-400);
   --surface-inverse: var(--color-grey-900);
   --surface-muted: var(--color-grey-200);
@@ -307,6 +309,8 @@
   /* ─── Semantics: Surfaces ───────────────────────────────────────── */
   --surface-card: var(--color-alpha-white-5);
   --surface-card-strong: var(--color-indigo-700);
+  --surface-footer: var(--color-indigo-900);
+  --surface-header: var(--color-indigo-800);
   --surface-inverse: var(--color-indigo-900);
   --surface-muted: var(--color-alpha-white-16);
   --surface-page: var(--color-indigo-800);
@@ -345,6 +349,8 @@
   /* ─── Semantics: Surfaces ───────────────────────────────────────── */
   --surface-card: var(--color-cream-100);
   --surface-card-strong: var(--color-grey-0);
+  --surface-footer: var(--color-indigo-900);
+  --surface-header: var(--color-indigo-800);
   --surface-page: var(--color-cream-50);
   --surface-page-alt: var(--color-cream-100);
 
