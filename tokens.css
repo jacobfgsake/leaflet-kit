@@ -147,9 +147,10 @@
   --opacity-subtle: 0.8;
 
   /* ─── Primitives: Breakpoints ─────────────────────────────────────────────── */
-  /* Reference values — CSS @media can't read var()s, so media queries hardcode
-     these px. Content pivots at lg (1024); md (768) is the nav/header collapse
-     point only (see Leaflet/AGENTS.md). */
+  /* Breakpoint scale. Reference values — CSS @media can't read var()s, so media
+     queries hardcode these px. Mobile-first base (xs, no query); two working
+     pivots: md (768, nav/tablet) + lg (1024, content + type mode). xl is rare.
+     Use the scale, never invent values. See Leaflet/AGENTS.md. */
   --breakpoint-xs: 360px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
