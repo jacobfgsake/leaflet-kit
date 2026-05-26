@@ -299,44 +299,45 @@ ul, ol { margin: 0; padding: 0; }
 
 /* ─── Variant: Secondary ────────────────────────────────────────────────── */
 
-/* Hairline border via inset box-shadow, NOT `border`. Reason: at fractional
-   device-pixel ratios (Windows 125/150/175% display scaling) Chrome snaps a 1px
-   `border` down to a single physical pixel — it computes 0.571px at 1.75x and
-   looks too thin. An inset box-shadow isn't device-snapped: it paints the full
-   1px hairline (matching how Figma renders the stroke) and stays 1px computed.
-   This is the kit's standard for all 1px hairlines (dividers, etc.). */
+/* Border mirrors the Figma stroke 1:1 (strokeWeight 1, border-cta). NOTE: at
+   fractional DPR (Windows 125/150/175% scaling) Chrome floors a 1px border to
+   one physical pixel — it looks thin and computes ~0.571px at 1.75x. That is
+   universal web behavior for hairlines, not a kit defect; we keep the faithful
+   border. If 1px reads too thin as a DESIGN choice, change the stroke weight in
+   Figma and let it sync down — don't work around it in code. */
 .cta-btn--secondary {
   background: transparent;
   color: var(--text-link);
-  box-shadow: inset 0 0 0 var(--stroke-1) var(--border-cta);
+  border: var(--stroke-1) solid var(--border-cta);
+  box-shadow: none;
 }
 .cta-btn--secondary:hover,
 .cta-btn--secondary.is-hover {
   background: transparent;
   color: var(--text-link-hover);
-  box-shadow: inset 0 0 0 var(--stroke-1) var(--border-cta-hover);
+  border-color: var(--border-cta-hover);
 }
 .cta-btn--secondary[disabled],
 .cta-btn--secondary.is-disabled {
   background: transparent;
   color: var(--text-on-disabled);
-  box-shadow: inset 0 0 0 var(--stroke-1) var(--border-disabled);
+  border-color: var(--border-disabled);
 }
 
 /* Secondary on Dark */
 .cta-btn--secondary.cta-btn--on-dark {
   color: var(--text-on-color);
-  box-shadow: inset 0 0 0 var(--stroke-1) var(--border-cta-inverse);
+  border-color: var(--border-cta-inverse);
 }
 .cta-btn--secondary.cta-btn--on-dark:hover,
 .cta-btn--secondary.cta-btn--on-dark.is-hover {
   color: var(--text-on-color);
-  box-shadow: inset 0 0 0 var(--stroke-1) var(--border-cta-inverse-hover);
+  border-color: var(--border-cta-inverse-hover);
 }
 .cta-btn--secondary.cta-btn--on-dark[disabled],
 .cta-btn--secondary.cta-btn--on-dark.is-disabled {
   color: var(--text-on-disabled);
-  box-shadow: inset 0 0 0 var(--stroke-1) var(--border-disabled-inverse);
+  border-color: var(--border-disabled-inverse);
 }
 
 /* ─── Variant: Ghost ────────────────────────────────────────────────────── */
