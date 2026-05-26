@@ -1,0 +1,14 @@
+{
+  "name": "leaflet-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OMGYES Leaflet Kit — hosted CSS + component library. Code Connect maps the kit's HTML/CSS components to the Figma UI Kit.",
+  "scripts": {
+    "cc:publish": "figma connect publish --label \"Web Components\" --force",
+    "cc:unpublish:button": "figma connect unpublish --label \"Web Components\" --node \"https://www.figma.com/design/eaPdzBQjxfakthQhIgQfL0/?node-id=25-107\"",
+    "cc:unpublish:menu": "figma connect unpublish --label \"Web Components\" --node \"https://www.figma.com/design/eaPdzBQjxfakthQhIgQfL0/?node-id=84-706\""
+  },
+  "devDependencies": {
+    "@figma/code-connect": "^1.3.3"
+  }
+}

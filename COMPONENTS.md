@@ -2,12 +2,13 @@
 
 Canonical markup for Leaflet Kit components. **Styling lives in `kit.css`; this file is the HTML to assemble.** When authoring a leaflet, copy the snippet and let the live kit CSS style it — never re-author component CSS per page.
 
-Load order in any consumer: `tokens.css` → `kit.css`.
+Load order in any consumer: `tokens.css` → `kit.css`, then `kit.js` (`defer`) for interactive components (e.g. the menu drawer).
 
 | Component | Status | Section |
 |-----------|--------|---------|
 | Button (CTA) | ✅ built | [Button](#button) |
 | Menu | ✅ built | [Menu](#menu) |
+| Menu drawer | ✅ built | [Menu drawer](#menu-drawer) |
 | Footer | ⏳ planned | — |
 | Technique card | ⏳ planned | — |
 
@@ -184,5 +185,47 @@ toggle.addEventListener('click', function () {
 
 ### Known gaps (deferred)
 
-- **Hamburger opens nothing yet.** The icon swap + `aria-expanded` are wired, but the nav drawer/panel itself is the consuming leaflet's responsibility (the kit ships the bar, not the panel).
+- **Hamburger opens the menu drawer.** The `.menu__toggle` opens the full-screen [Menu drawer](#menu-drawer) (slides from the right) via `kit.js`; the ☰→✕ swap is CSS. The drawer markup + `kit.js` must be present — without them the toggle just swaps the icon.
+- **Login href is a placeholder.** Point it at the real login URL per leaflet.
+
+---
+
+## Menu drawer
+
+Full-screen mobile panel the hamburger opens — Figma **expanded-menu** (`eaPdzBQjxfakthQhIgQfL0 / 127:545`). Slides in from the right and sits **under** the persistent `.menu` bar, so the bar stays as the header (logo + CTA + the ☰→✕ toggle). **Mobile-only**: the hamburger is hidden ≥768 (Login shows instead), so the drawer never opens there.
+
+Requires `kit.js` (the toggle behavior) and the `.menu` bar on the same page — its `.menu__toggle` is what opens this.
+
+### Markup
+
+```html
+<!-- The drawer lives anywhere in the body; kit.js links it to the menu's hamburger. -->
+<div class="menu-drawer" id="menu-drawer" aria-hidden="true">
+  <p class="menu-drawer__prompt">Already have an account?</p>
+  <a class="cta-btn menu-drawer__login" href="#">Login</a>
+</div>
+```
+
+Pair it with the menu bar and load the kit JS once:
+
+```html
+<header class="menu" role="banner"> … </header>
+<!-- … page content … -->
+<div class="menu-drawer" id="menu-drawer" aria-hidden="true"> … </div>
+<script src="kit.js" defer></script>
+```
+
+### Behavior (kit.js)
+
+- The hamburger (`.menu__toggle`) toggles `.menu-drawer.is-open` + its `aria-expanded` (the ☰→✕ swap is CSS). **Escape** closes it and returns focus to the toggle.
+- While open, `<html>` gets `.menu-drawer-open` so page scroll is locked.
+- `position: fixed` keeps the off-screen (right) panel from adding a horizontal scrollbar.
+
+### Token bindings
+
+`--surface-page` (panel fill) · `--text-secondary` + `--text-body-lg-size` (the prompt) · `--space-16` (gap) · `--space-24` (side padding) · `--space-104` (bottom offset, falls back to 104px). The Login is a fixed **200px**-wide `.cta-btn` (`.menu-drawer__login`) per Figma — not hug.
+
+### Known gaps (deferred)
+
+- **Content is just the Login prompt** (matches the current Figma) — no nav links yet.
 - **Login href is a placeholder.** Point it at the real login URL per leaflet.

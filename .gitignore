@@ -10,3 +10,6 @@ desktop.ini
 
 # Local font drops for preview (not part of the kit)
 preview/fonts/
+
+# Code Connect tooling (committed: package.json, figma.config.json, *.figma.ts)
+node_modules/

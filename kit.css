@@ -215,7 +215,9 @@ ul, ol { margin: 0; padding: 0; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-align: center;        /* mirrors Figma: label centered (was left-aligned) */
   gap: var(--space-8);
+  max-width: 320px;          /* mirrors Figma: button hugs its label but caps at 320px */
   height: 40px;
   padding: 0 var(--space-24);
   border: 0;
@@ -537,3 +539,45 @@ ul, ol { margin: 0; padding: 0; }
   color: var(--text-on-header);
   --menu-login-hover: var(--text-on-header-hover);
 }
+
+/* ─── Menu drawer (Figma "expanded-menu" 127:545) ──────────────────────────
+   Full-screen mobile panel the hamburger opens. Slides in from the right and
+   sits UNDER the persistent .menu bar (z-index 40 < the bar's 50), so the bar
+   stays as the header (logo + CTA + the ☰→✕ toggle). Behaviour is wired by
+   kit.js; load it after kit.css. Mobile-only by nature — the hamburger is
+   hidden >=768 (Login shows instead), so the drawer never opens there.
+   position:fixed keeps the off-screen (translateX 100%) panel from adding a
+   horizontal scrollbar — fixed elements don't extend the document scroll size. */
+.menu-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-16);
+  padding: 0 var(--space-24) var(--space-104, 104px); /* 104 bottom offset nudges content above center, per Figma */
+  background: var(--surface-page, #fff);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 180ms ease, visibility 0s linear 180ms;
+  overflow-y: auto;
+}
+.menu-drawer.is-open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 180ms ease, visibility 0s linear 0s;
+}
+/* Lock page scroll while the drawer is open (kit.js sets this on <html>) */
+html.menu-drawer-open { overflow: hidden; }
+
+.menu-drawer__prompt {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--text-body-lg-size);
+  line-height: 1.5;
+  text-align: center;
+}
+/* Drawer CTA is a fixed-width Button (200px), not hug — per Figma 127:527 */
+.menu-drawer__login { width: 200px; }

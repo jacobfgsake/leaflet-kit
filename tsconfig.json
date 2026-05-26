@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "types": ["@figma/code-connect/figma-types"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "esnext",
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["code-connect/**/*.figma.ts"]
+}
