@@ -459,7 +459,8 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 /* Login — a text link that inherits the menu color (NOT the blue link default).
-   No hover token exists in Figma; a subtle opacity dip is the kit's a11y floor. */
+   Figma defines no hover for Login, so the kit adds none either. (Focus ring
+   below is the kit-wide a11y floor, same as the Button — not a Figma token.) */
 .menu__login {
   color: inherit;
   text-decoration: none;
@@ -467,7 +468,6 @@ ul, ol { margin: 0; padding: 0; }
   font-size: var(--text-body-lg-size);
   line-height: 1.5;
 }
-.menu__login:hover { color: inherit; opacity: var(--opacity-subtle); }
 .menu__login:focus-visible { outline: var(--stroke-2) solid currentColor; outline-offset: 2px; }
 
 /* Hamburger — inherits color; icon stroke = currentColor */
@@ -500,13 +500,15 @@ ul, ol { margin: 0; padding: 0; }
   .menu__toggle { display: none; }
 }
 
-/* Menu CTA — sm below 768 (Figma xs), default size >= 768 (Figma lg). Markup
-   uses the base `.cta-btn`; this shrinks it on mobile (mirrors cta-btn--sm). */
-@media (max-width: 767px) {
-  .menu .cta-btn {
-    height: 32px;
-    padding: 0 var(--space-16);
-    font-size: var(--text-cta-sm-size);
+/* Menu CTA = the real Button component. Figma uses two Button variants: xs=sm
+   (32h), lg=default (40h). So the markup carries the actual `cta-btn--sm`
+   variant (mobile-first), and this promotes it to the default size at >=768 —
+   mirroring the default `.cta-btn` spec, no bespoke button styling. */
+@media (min-width: 768px) {
+  .menu .cta-btn--sm {
+    height: 40px;
+    padding: 0 var(--space-24);
+    font-size: var(--text-cta-default-size);
   }
 }
 

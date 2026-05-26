@@ -102,7 +102,7 @@ A single `color` on `.menu` drives the logo (`fill="currentColor"`), the Login l
     </a>
     <div class="menu__actions">
       <a class="menu__login" href="#">Login</a>
-      <a class="cta-btn menu__cta" href="#">See what you'll get</a>
+      <a class="cta-btn cta-btn--sm" href="#">See what you'll get</a>
       <button class="menu__toggle" type="button" aria-label="Open menu" aria-expanded="false">
         <svg class="menu__icon menu__icon--open" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
           <path fill="currentColor" d="M4 8C4 7.44772 4.44772 7 5 7H27C27.5523 7 28 7.44772 28 8C28 8.55228 27.5523 9 27 9H5C4.44772 9 4 8.55228 4 8Z"/>
@@ -118,7 +118,7 @@ A single `color` on `.menu` drives the logo (`fill="currentColor"`), the Login l
 </header>
 ```
 
-Login is hidden `< 768`; the hamburger is hidden `≥ 768`. Keep **both** in the markup — the kit toggles their visibility at the breakpoint. The CTA is automatically `sm`-sized below 768.
+Login is hidden `< 768`; the hamburger is hidden `≥ 768`. Keep **both** in the markup — the kit toggles their visibility at the breakpoint. The CTA is the real Button: ship the `cta-btn--sm` variant (Figma xs), and the kit promotes it to the default size `≥ 768` (Figma lg) — no bespoke button styling.
 
 ### States (matches the Figma `State` variant)
 
@@ -165,7 +165,7 @@ For a **dark** hero, add `is-over-dark` to the menu so the transparent (pre-scro
 
 ### Token bindings
 
-`--text-primary` / `--text-inverse` / `--text-on-header` (content color per state, via one `color`) · `--surface-header` (Scrolled + cream fill) · `--space-16` / `--space-32` / `--space-40` (padding + action gap) · `--text-body-lg-size` (Login) · `--text-cta-sm-size` (mobile CTA) · `--opacity-subtle` (Login hover) · `--stroke-2` + `--radius-xs` (focus rings). Logo + hamburger are inline SVG with `fill`/`stroke="currentColor"`, so they inherit the menu `color`.
+`--text-primary` / `--text-inverse` / `--text-on-header` (content color per state, via one `color`) · `--surface-header` (Scrolled + cream fill) · `--space-16` / `--space-32` / `--space-40` (padding + action gap) · `--text-body-lg-size` (Login) · `--stroke-2` + `--radius-xs` (focus rings — kit a11y floor). The CTA pulls its own tokens (`--cta-primary`, `--cta-primary-hover`, etc.) from the Button component. Logo + hamburger are inline SVG with `fill`/`stroke="currentColor"`, so they inherit the menu `color`.
 
 ### Hamburger toggle
 
