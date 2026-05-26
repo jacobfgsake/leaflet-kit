@@ -72,6 +72,11 @@ Real navigation/checkout CTAs are links (`<a>`); in-page actions are `<button>` 
 
 `--cta-primary` / `--cta-primary-hover` (fill) · `--text-on-color` (label) · `--cta-inverse` / `--cta-inverse-hover` + `--text-on-cta-inverse` (on-dark primary) · `--border-cta` / `--border-cta-hover` / `--border-cta-inverse` (secondary) · `--text-link` / `--text-link-hover` (secondary + ghost label) · `--cta-disabled` / `--cta-disabled-inverse` / `--text-on-disabled` / `--border-disabled` / `--border-disabled-inverse` (disabled) · `--shadow-button` (primary flat shadow) · `--radius-full` · `--space-8/16/24/32` · `--text-cta-*-size` · `--font-weight-medium/bold` · `--stroke-1/2`.
 
+### Known gaps (deferred)
+
+- **Icon glyph is a placeholder.** The `--icon` button uses a generic chevron SVG; Figma uses a specific `Icon / Circle` vector. Pull the real glyph(s) when the icon system is built.
+- **No optional leading/trailing icon slots.** The Figma text buttons have hidden icon slots flanking the label; the markup here is text-only. Add slots when icons are tackled.
+
 ### ⚠️ Boundary — CTAs are always blue
 
 Brand **orange is never used on a CTA button** (primary *or* secondary). The legacy `.cta-btn--accent` (orange) is retained only for non-button marketing fills outside the slim-button matrix and is **not** part of the Figma component. To brand-up a CTA region, put orange *around* the button (eyebrow, tag), never on it. (DESIGN.md)
