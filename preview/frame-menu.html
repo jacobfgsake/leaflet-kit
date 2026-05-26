@@ -87,6 +87,12 @@
     </div>
   </div>
 
+  <!-- ===== Menu drawer (kit markup) — opened by the hamburger via kit.js ===== -->
+  <div class="menu-drawer" id="menu-drawer" aria-hidden="true">
+    <p class="menu-drawer__prompt">Already have an account?</p>
+    <a class="cta-btn menu-drawer__login" href="#">Login</a>
+  </div>
+
   <script>
     var menu = document.getElementById('menu');
     var hero = document.getElementById('hero');
@@ -101,11 +107,8 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // Hamburger ↔ X (icon swap is pure CSS off aria-expanded)
-    toggle.addEventListener('click', function () {
-      var open = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!open));
-    });
+    // Hamburger toggle + drawer open/close is owned by kit.js (loaded below),
+    // so the preview exercises the kit's real shipped behaviour.
 
     // The transparent menu's content is LIGHT when the page theme is dark
     // (text-primary flips to white) or in the Over Dark state — so the hero
@@ -137,5 +140,7 @@
       if (typeof d.menuState === 'string') applyState(d.menuState);
     });
   </script>
+  <!-- The kit's real JS — owns the hamburger ↔ drawer behaviour. Load after kit.css. -->
+  <script src="../kit.js" defer></script>
 </body>
 </html>

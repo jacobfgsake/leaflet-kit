@@ -569,7 +569,11 @@ ul, ol { margin: 0; padding: 0; }
   visibility: visible;
   transition: transform 180ms ease, visibility 0s linear 0s;
 }
-/* Lock page scroll while the drawer is open (kit.js sets this on <html>) */
+/* Lock page scroll while the drawer is open (kit.js sets this on <html>).
+   Deliberately NO scrollbar-width compensation: the drawer is mobile-only (overlay
+   scrollbars take no width, so locking doesn't shift anything). The only place a
+   shift shows is desktop preview at narrow width — an artifact real users never hit,
+   not worth the padding-right hack (which would nudge any 100vw full-bleed section). */
 html.menu-drawer-open { overflow: hidden; }
 
 .menu-drawer__prompt {

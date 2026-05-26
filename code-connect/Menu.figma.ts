@@ -14,8 +14,13 @@ figma.connect('https://www.figma.com/design/eaPdzBQjxfakthQhIgQfL0/Leaflet-UI-Ki
       'Over Dark': 'menu is-over-dark',
       'Scrolled': 'menu is-scrolled',
     }),
+    // Show CTA boolean: include the CTA when on, omit it when off (matches the menu instance).
+    showCta: figma.boolean('Show CTA', {
+      true: html`<a class="cta-btn cta-btn--sm" href="#">See what you'll get</a>`,
+      false: '',
+    }),
   },
-  example: ({ state }) => html`<header class="${state}" role="banner">
+  example: ({ state, showCta }) => html`<header class="${state}" role="banner">
   <div class="menu__inner">
     <a class="menu__logo" href="https://www.omgyes.com" aria-label="OMGYES home">
       <svg class="menu__logo-mark" viewBox="0 0 115 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -25,7 +30,7 @@ figma.connect('https://www.figma.com/design/eaPdzBQjxfakthQhIgQfL0/Leaflet-UI-Ki
     </a>
     <div class="menu__actions">
       <a class="menu__login" href="#">Login</a>
-      <a class="cta-btn cta-btn--sm" href="#">See what you'll get</a>
+      ${showCta}
       <button class="menu__toggle" type="button" aria-label="Open menu" aria-expanded="false">
         <svg class="menu__icon menu__icon--open" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
           <path fill="currentColor" d="M4 8C4 7.44772 4.44772 7 5 7H27C27.5523 7 28 7.44772 28 8C28 8.55228 27.5523 9 27 9H5C4.44772 9 4 8.55228 4 8Z"/>
