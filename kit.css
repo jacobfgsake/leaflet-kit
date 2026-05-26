@@ -419,9 +419,9 @@ ul, ol { margin: 0; padding: 0; }
   /* base = Over Light: transparent, dark content */
   background: transparent;
   color: var(--text-primary);
-  /* Login hover target. Primary text has a hover token; the other states
-     (white text) don't yet, so they reset this to currentColor (no hover)
-     below — never a dark hover on white text. */
+  /* Login hover target — each state repoints this at the hover token matching
+     its text role (primary / on-header / inverse), so the Login hover always
+     tracks the current text color and never lands dark-on-white. */
   --menu-login-hover: var(--text-primary-hover);
   transition: background 200ms ease, color 200ms ease;
 }
@@ -522,19 +522,18 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 /* ─── State: Over Dark (transparent, light content) ─────────────────────── */
-/* White text — no hover token yet, so disable the Login color hover here. */
-.menu.is-over-dark { color: var(--text-inverse); --menu-login-hover: currentColor; }
+.menu.is-over-dark { color: var(--text-inverse); --menu-login-hover: var(--text-inverse-hover); }
 
 /* ─── State: Scrolled (solid header surface) ────────────────────────────── */
 .menu.is-scrolled {
   background: var(--surface-header);
   color: var(--text-on-header);
-  --menu-login-hover: currentColor; /* on-header has no hover token yet */
+  --menu-login-hover: var(--text-on-header-hover);
 }
 
 /* Cream theme: no transparent phase — always the Scrolled look */
 [data-theme="cream"] .menu {
   background: var(--surface-header);
   color: var(--text-on-header);
-  --menu-login-hover: currentColor;
+  --menu-login-hover: var(--text-on-header-hover);
 }
