@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaflet Kit — component frame</title>
+<!-- The kit itself. Loaded exactly as a leaflet would consume it: tokens first, then kit. -->
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../kit.css">
+<style>
+  /* frame-local layout ONLY — not part of the kit, never shipped */
+  body { padding: var(--space-32) var(--space-24); min-height: 100vh; }
+  .frame-wrap { display: flex; flex-direction: column; gap: var(--space-48); max-width: 960px; margin: 0 auto; }
+  .vgroup { display: flex; flex-direction: column; gap: var(--space-16); }
+  .vgroup__label { color: var(--text-secondary); }
+  .vrow { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-16); }
+  .vrow__size { min-width: 64px; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+  <div class="frame-wrap" id="root"></div>
+
+  <script>
+    var ARROW = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    var VARIANTS = [
+      { mod: '',                  name: 'Primary' },
+      { mod: 'cta-btn--secondary', name: 'Secondary' },
+      { mod: 'cta-btn--ghost',     name: 'Ghost' }
+    ];
+    var SIZES = [
+      { mod: 'cta-btn--sm',   name: 'sm',      label: 'Button' },
+      { mod: '',              name: 'default', label: 'Button' },
+      { mod: 'cta-btn--lg',   name: 'lg',      label: 'Button' },
+      { mod: 'cta-btn--icon', name: 'icon',    label: ARROW }
+    ];
+
+    var root = document.getElementById('root');
+    VARIANTS.forEach(function (v) {
+      var group = document.createElement('div');
+      group.className = 'vgroup';
+      var label = document.createElement('div');
+      label.className = 'vgroup__label text-label-caps';
+      label.textContent = v.name;
+      group.appendChild(label);
+
+      var row = document.createElement('div');
+      row.className = 'vrow';
+      SIZES.forEach(function (s) {
+        var tag = document.createElement('div');
+        tag.className = 'vrow__size text-caption';
+        tag.textContent = s.name;
+        row.appendChild(tag);
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = ['cta-btn', v.mod, s.mod].filter(Boolean).join(' ');
+        btn.innerHTML = s.label;
+        row.appendChild(btn);
+      });
+      group.appendChild(row);
+      root.appendChild(group);
+    });
+
+    // ── Receive theme/state from the harness shell ─────────────────────────
+    var buttons = function () { return document.querySelectorAll('.cta-btn'); };
+
+    function applyState(state) {
+      buttons().forEach(function (b) {
+        b.classList.remove('is-hover', 'is-focus', 'is-disabled');
+        b.removeAttribute('disabled');
+        if (state === 'hover')    b.classList.add('is-hover');
+        if (state === 'focus')    b.classList.add('is-focus');
+        if (state === 'disabled') { b.setAttribute('disabled', ''); b.classList.add('is-disabled'); }
+      });
+    }
+
+    function applyTheme(theme) {
+      // light = no attribute (default :root); dark / cream = data-theme
+      if (theme === 'light') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', theme);
+      // On dark surfaces, buttons use the Figma "On=Dark" treatment.
+      var onDark = (theme === 'dark');
+      buttons().forEach(function (b) { b.classList.toggle('cta-btn--on-dark', onDark); });
+    }
+
+    window.addEventListener('message', function (e) {
+      var d = e.data || {};
+      if (typeof d.theme === 'string') applyTheme(d.theme);
+      if (typeof d.state === 'string') applyState(d.state);
+    });
+  </script>
+</body>
+</html>

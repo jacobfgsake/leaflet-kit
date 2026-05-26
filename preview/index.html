@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaflet Kit — Review Harness</title>
+<link rel="stylesheet" href="preview.css">
+</head>
+<body>
+  <header class="bar">
+    <div class="bar__brand">Leaflet Kit · <span id="component-name">Button (CTA)</span></div>
+
+    <div class="ctl" role="group" aria-label="Background">
+      <span class="ctl__label">Background</span>
+      <div class="seg" data-group="bg">
+        <button type="button" data-bg="light" class="is-active">Light</button>
+        <button type="button" data-bg="dark">Dark</button>
+        <button type="button" data-bg="cream">Cream</button>
+      </div>
+    </div>
+
+    <div class="ctl" role="group" aria-label="State">
+      <span class="ctl__label">State</span>
+      <div class="seg" data-group="state">
+        <button type="button" data-state="default" class="is-active">Default</button>
+        <button type="button" data-state="hover">Hover</button>
+        <button type="button" data-state="focus">Focus</button>
+        <button type="button" data-state="disabled">Disabled</button>
+      </div>
+    </div>
+
+    <div class="ctl" role="group" aria-label="Width">
+      <span class="ctl__label">Width <em id="wlabel">1280px</em></span>
+      <div class="seg" data-group="w">
+        <button type="button" data-w="360">360</button>
+        <button type="button" data-w="768">768</button>
+        <button type="button" data-w="1024">1024</button>
+        <button type="button" data-w="1280" class="is-active">1280</button>
+        <button type="button" data-w="full">Full</button>
+      </div>
+    </div>
+
+    <div class="bar__hint">Tab inside the frame to test real keyboard focus →</div>
+  </header>
+
+  <main class="stage" id="stage">
+    <iframe id="frame" class="frame" src="frame.html" title="Component preview"></iframe>
+  </main>
+
+  <script src="preview.js"></script>
+</body>
+</html>

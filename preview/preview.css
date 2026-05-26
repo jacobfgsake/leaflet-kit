@@ -1,0 +1,109 @@
+/* Review harness chrome — NOT part of the kit. Uses its own system font so the
+   chrome stays visually distinct from the component canvas inside the frame. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1c1c1e;
+  background: #e7e7ea;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Control bar ──────────────────────────────────────────────────────────── */
+.bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #d6d6da;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.bar__brand {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+.bar__brand span { color: #6a6a70; font-weight: 500; }
+
+.bar__hint {
+  margin-left: auto;
+  font-size: 12px;
+  color: #9a9aa0;
+}
+
+.ctl { display: flex; align-items: center; gap: 8px; }
+.ctl__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9a9aa0;
+}
+.ctl__label em { font-style: normal; color: #2973db; font-weight: 600; }
+
+/* ── Segmented controls ───────────────────────────────────────────────────── */
+.seg {
+  display: inline-flex;
+  background: #f0f0f2;
+  border: 1px solid #d6d6da;
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.seg button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #46464b;
+  font: inherit;
+  font-size: 13px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  line-height: 1;
+}
+.seg button:hover { background: #e3e3e6; }
+.seg button.is-active {
+  background: #ffffff;
+  color: #1c1c1e;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  font-weight: 600;
+}
+.seg button:focus-visible {
+  outline: 2px solid #2973db;
+  outline-offset: 1px;
+}
+
+/* ── Stage + frame ────────────────────────────────────────────────────────── */
+.stage {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 28px;
+}
+
+.frame {
+  width: 1280px;
+  height: 100%;
+  min-height: 600px;
+  border: 1px solid #c9c9ce;
+  border-radius: 10px;
+  background: #ffffff;          /* overridden by the frame's own --surface-page */
+  box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+  transition: width 160ms ease;
+  flex: none;
+}
