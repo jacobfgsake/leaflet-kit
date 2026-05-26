@@ -52,13 +52,16 @@ button, input, select, textarea {
   color: inherit;
 }
 
-/* Links — default to brand blue with hover state already wired */
-a {
+/* Links — brand blue + hover, but ONLY for unclassed content links. An anchor
+   WITH a class (.cta-btn, .menu__login, .menu__logo, …) repurposes <a> as a
+   button or nav item and owns its color in every state; the base link color —
+   especially a:hover — must not bleed into it and repaint a CTA label blue. */
+a:not([class]) {
   color: var(--text-link);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-a:hover {
+a:not([class]):hover {
   color: var(--text-link-hover);
 }
 
