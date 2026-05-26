@@ -92,6 +92,7 @@
     var hero = document.getElementById('hero');
     var toggle = document.getElementById('toggle');
     var pinScrolled = false;   // true only when the State control forces "scrolled"
+    var curTheme = 'light', curState = 'over-light';
 
     // Scroll toggle (mirrors the snippet shipped in COMPONENTS.md)
     function onScroll() {
@@ -106,18 +107,29 @@
       toggle.setAttribute('aria-expanded', String(!open));
     });
 
+    // The transparent menu's content is LIGHT when the page theme is dark
+    // (text-primary flips to white) or in the Over Dark state — so the hero
+    // behind it must be dark for the logo/Login to read. Tone follows both.
+    function refreshHero() {
+      var contentLight = curState === 'over-dark' || curTheme === 'dark';
+      hero.dataset.tone = contentLight ? 'dark' : 'light';
+    }
+
     // ── Receive state/theme from the harness shell ───────────────────────
     function applyState(s) {
+      curState = s;
       menu.classList.remove('is-over-dark', 'is-scrolled');
       pinScrolled = false;
-      if (s === 'over-dark') { menu.classList.add('is-over-dark'); hero.dataset.tone = 'dark'; }
-      else if (s === 'scrolled') { menu.classList.add('is-scrolled'); pinScrolled = true; hero.dataset.tone = 'light'; }
-      else { hero.dataset.tone = 'light'; } // over-light
+      if (s === 'over-dark') menu.classList.add('is-over-dark');
+      else if (s === 'scrolled') { menu.classList.add('is-scrolled'); pinScrolled = true; }
+      refreshHero();
       onScroll(); // re-evaluate against current scroll position
     }
     function applyTheme(theme) {
+      curTheme = theme;
       if (theme === 'light') document.documentElement.removeAttribute('data-theme');
       else document.documentElement.setAttribute('data-theme', theme);
+      refreshHero();
     }
     window.addEventListener('message', function (e) {
       var d = e.data || {};
