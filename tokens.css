@@ -216,6 +216,7 @@
   --text-on-disabled: var(--color-grey-500);
   --text-on-header: var(--color-grey-900);
   --text-primary: var(--color-grey-900);
+  --text-primary-hover: var(--color-grey-700);
   --text-secondary: var(--color-grey-700);
   --text-tertiary: var(--color-grey-500);
 
@@ -323,6 +324,7 @@
   --text-accent: var(--color-peach-600);
   --text-on-header: var(--color-grey-0);
   --text-primary: var(--color-grey-0);
+  --text-primary-hover: var(--color-grey-300);
   --text-secondary: var(--color-grey-200);
   --text-tertiary: var(--color-grey-300);
 

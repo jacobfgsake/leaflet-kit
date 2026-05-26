@@ -419,6 +419,10 @@ ul, ol { margin: 0; padding: 0; }
   /* base = Over Light: transparent, dark content */
   background: transparent;
   color: var(--text-primary);
+  /* Login hover target. Primary text has a hover token; the other states
+     (white text) don't yet, so they reset this to currentColor (no hover)
+     below — never a dark hover on white text. */
+  --menu-login-hover: var(--text-primary-hover);
   transition: background 200ms ease, color 200ms ease;
 }
 
@@ -470,7 +474,9 @@ ul, ol { margin: 0; padding: 0; }
   white-space: nowrap;
   font-size: var(--text-body-lg-size);
   line-height: 1.5;
+  transition: color 120ms ease;
 }
+.menu__login:hover { color: var(--menu-login-hover); }
 .menu__login:focus-visible { outline: var(--stroke-2) solid currentColor; outline-offset: 2px; }
 
 /* Hamburger — inherits color; icon stroke = currentColor */
@@ -516,16 +522,19 @@ ul, ol { margin: 0; padding: 0; }
 }
 
 /* ─── State: Over Dark (transparent, light content) ─────────────────────── */
-.menu.is-over-dark { color: var(--text-inverse); }
+/* White text — no hover token yet, so disable the Login color hover here. */
+.menu.is-over-dark { color: var(--text-inverse); --menu-login-hover: currentColor; }
 
 /* ─── State: Scrolled (solid header surface) ────────────────────────────── */
 .menu.is-scrolled {
   background: var(--surface-header);
   color: var(--text-on-header);
+  --menu-login-hover: currentColor; /* on-header has no hover token yet */
 }
 
 /* Cream theme: no transparent phase — always the Scrolled look */
 [data-theme="cream"] .menu {
   background: var(--surface-header);
   color: var(--text-on-header);
+  --menu-login-hover: currentColor;
 }

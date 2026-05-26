@@ -165,7 +165,9 @@ For a **dark** hero, add `is-over-dark` to the menu so the transparent (pre-scro
 
 ### Token bindings
 
-`--text-primary` / `--text-inverse` / `--text-on-header` (content color per state, via one `color`) · `--surface-header` (Scrolled + cream fill) · `--space-16` / `--space-32` / `--space-40` (padding + action gap) · `--text-body-lg-size` (Login) · `--stroke-2` + `--radius-xs` (focus rings — kit a11y floor). The CTA pulls its own tokens (`--cta-primary`, `--cta-primary-hover`, etc.) from the Button component. Logo + hamburger are inline SVG with `fill`/`stroke="currentColor"`, so they inherit the menu `color`.
+`--text-primary` / `--text-inverse` / `--text-on-header` (content color per state, via one `color`) · `--text-primary-hover` (Login hover, see below) · `--surface-header` (Scrolled + cream fill) · `--space-16` / `--space-32` / `--space-40` (padding + action gap) · `--text-body-lg-size` (Login) · `--stroke-2` + `--radius-xs` (focus rings — kit a11y floor). The CTA pulls its own tokens (`--cta-primary`, `--cta-primary-hover`, etc.) from the Button component. Logo + hamburger are inline SVG with `fill`/`stroke="currentColor"`, so they inherit the menu `color`.
+
+**Login hover:** uses the `text/primary-hover` token (mode-aware: grey-700 light, grey-300 dark) via a per-state `--menu-login-hover` custom property. It's active only where the Login is **primary** text (the Over Light state). Scrolled (`text-on-header`) and Over Dark (`text-inverse`) reset it to `currentColor` (no hover) until those roles get their own `*-hover` tokens — so a dark hover never lands on white text.
 
 ### Hamburger toggle
 
