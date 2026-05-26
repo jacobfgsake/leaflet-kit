@@ -299,16 +299,14 @@ ul, ol { margin: 0; padding: 0; }
 
 /* ─── Variant: Secondary ────────────────────────────────────────────────── */
 
-/* Border mirrors the Figma stroke 1:1 (strokeWeight 1, border-cta). NOTE: at
-   fractional DPR (Windows 125/150/175% scaling) Chrome floors a 1px border to
-   one physical pixel — it looks thin and computes ~0.571px at 1.75x. That is
-   universal web behavior for hairlines, not a kit defect; we keep the faithful
-   border. If 1px reads too thin as a DESIGN choice, change the stroke weight in
-   Figma and let it sync down — don't work around it in code. */
+/* Border mirrors the Figma stroke 1:1 — stroke/2 (2px) bound to border/cta.
+   Bumped from 1px in Figma (a 1px border floored to a thin single physical pixel
+   at fractional DPR); 2px reads cleanly everywhere. The stroke weight is now a
+   bound variable in the component, so design + code stay in sync. */
 .cta-btn--secondary {
   background: transparent;
   color: var(--text-link);
-  border: var(--stroke-1) solid var(--border-cta);
+  border: var(--stroke-2) solid var(--border-cta);
   box-shadow: none;
 }
 .cta-btn--secondary:hover,
