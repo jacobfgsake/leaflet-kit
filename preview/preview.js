@@ -1,17 +1,40 @@
 /* Review harness controller.
-   Holds current theme + state, posts them into the iframe, and resizes the
-   iframe so media queries (the 1024px type pivot) fire for real. */
+   Switches the previewed component, holds current theme + state, posts them
+   into the iframe, and resizes the iframe so media queries (768 nav pivot,
+   1024 type pivot) fire for real.
+
+   Each component declares its own State axis + which message key the frame
+   listens on. The button frame reads `state`; the menu frame reads `menuState`.
+   The shared `theme` (background) + width controls apply to both. */
 (function () {
   var frame = document.getElementById('frame');
   var stage = document.getElementById('stage');
   var wlabel = document.getElementById('wlabel');
+  var nameEl = document.getElementById('component-name');
+  var stateSeg = document.getElementById('state-seg');
 
-  var state = { theme: 'light', state: 'default' };
+  var COMPONENTS = {
+    button: {
+      label: 'Button (CTA)',
+      src: 'frame.html',
+      key: 'state',
+      states: [['default', 'Default'], ['hover', 'Hover'], ['focus', 'Focus'], ['disabled', 'Disabled']]
+    },
+    menu: {
+      label: 'Menu',
+      src: 'frame-menu.html',
+      key: 'menuState',
+      states: [['over-light', 'Over Light'], ['over-dark', 'Over Dark'], ['scrolled', 'Scrolled']]
+    }
+  };
+
+  var current = 'button';
+  // One message carries every axis; each frame reads only the keys it knows.
+  var msg = { theme: 'light', state: 'default', menuState: 'over-light' };
 
   function post() {
-    if (frame.contentWindow) frame.contentWindow.postMessage(state, '*');
+    if (frame.contentWindow) frame.contentWindow.postMessage(msg, '*');
   }
-
   // Re-apply on (re)load so the frame always reflects the current controls.
   frame.addEventListener('load', post);
 
@@ -20,19 +43,42 @@
     btn.classList.add('is-active');
   }
 
-  // Background
-  document.querySelectorAll('[data-bg]').forEach(function (btn) {
+  // Build the State segmented control for the active component.
+  function buildStates(compKey) {
+    var comp = COMPONENTS[compKey];
+    stateSeg.innerHTML = '';
+    msg[comp.key] = comp.states[0][0];
+    comp.states.forEach(function (s, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.state = s[0];
+      b.textContent = s[1];
+      if (i === 0) b.classList.add('is-active');
+      b.addEventListener('click', function () {
+        msg[comp.key] = s[0];
+        activate(stateSeg, b);
+        post();
+      });
+      stateSeg.appendChild(b);
+    });
+  }
+
+  // Component switch
+  document.querySelectorAll('[data-component]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      state.theme = btn.dataset.bg;
+      current = btn.dataset.component;
+      var comp = COMPONENTS[current];
       activate(btn.closest('.seg'), btn);
-      post();
+      nameEl.textContent = comp.label;
+      buildStates(current);
+      frame.src = comp.src; // triggers load → post()
     });
   });
 
-  // State
-  document.querySelectorAll('[data-state]').forEach(function (btn) {
+  // Background (theme) — applies to both components
+  document.querySelectorAll('[data-bg]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      state.state = btn.dataset.state;
+      msg.theme = btn.dataset.bg;
       activate(btn.closest('.seg'), btn);
       post();
     });
@@ -49,9 +95,11 @@
         frame.style.width = w + 'px';
         wlabel.textContent = w + 'px';
       }
-      // keep narrow frames centered, wide frames scrollable from the left
       stage.style.justifyContent = (w !== 'full' && parseInt(w, 10) > stage.clientWidth - 56) ? 'flex-start' : 'center';
       activate(btn.closest('.seg'), btn);
     });
   });
+
+  // Init the State control for the default component.
+  buildStates(current);
 })();

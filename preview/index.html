@@ -10,6 +10,14 @@
   <header class="bar">
     <div class="bar__brand">Leaflet Kit · <span id="component-name">Button (CTA)</span></div>
 
+    <div class="ctl" role="group" aria-label="Component">
+      <span class="ctl__label">Component</span>
+      <div class="seg" data-group="component">
+        <button type="button" data-component="button" class="is-active">Button</button>
+        <button type="button" data-component="menu">Menu</button>
+      </div>
+    </div>
+
     <div class="ctl" role="group" aria-label="Background">
       <span class="ctl__label">Background</span>
       <div class="seg" data-group="bg">
@@ -21,12 +29,8 @@
 
     <div class="ctl" role="group" aria-label="State">
       <span class="ctl__label">State</span>
-      <div class="seg" data-group="state">
-        <button type="button" data-state="default" class="is-active">Default</button>
-        <button type="button" data-state="hover">Hover</button>
-        <button type="button" data-state="focus">Focus</button>
-        <button type="button" data-state="disabled">Disabled</button>
-      </div>
+      <!-- buttons built per-component by preview.js -->
+      <div class="seg" data-group="state" id="state-seg"></div>
     </div>
 
     <div class="ctl" role="group" aria-label="Width">

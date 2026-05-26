@@ -378,3 +378,149 @@ ul, ol { margin: 0; padding: 0; }
   background: var(--cta-disabled);
   color: var(--text-on-disabled);
 }
+
+/* ============================================================================
+   COMPONENT — Menu (header / nav)
+   Mapped 1:1 to Figma "menu" — eaPdzBQjxfakthQhIgQfL0 / 84:706.
+   ----------------------------------------------------------------------------
+   STATE = context (what sits behind the bar), NOT theme. A single `color` on
+   .menu drives the logo (fill:currentColor), the Login link, and the hamburger
+   together; the CTA keeps its own blue fill in every state. The three states
+   map 1:1 to the Figma `State` variant:
+
+     (base)         Over Light — transparent; dark content (text/icon-primary).
+                    Place over a LIGHT hero.
+     .is-over-dark  Over Dark  — transparent; light content (text/icon-inverse).
+                    Place over a DARK hero.
+     .is-scrolled   Scrolled   — solid surface/header fill + on-header tokens.
+
+   (In Figma logo+hamburger bind to icon/primary|inverse|on-header and Login to
+   text/primary|inverse|on-header. Those icon/* and text/* pairs resolve to the
+   SAME values, so one `color` here is value-identical to the split bindings.)
+
+   Cream has no transparent phase — it always uses the Scrolled look
+   (surface/header is indigo in cream). Figma modes can't switch a variant, so
+   this is a usage rule expressed here as a theme override.
+
+   SIZE is the 768 breakpoint (Figma xs / lg): < 768 shows the hamburger + a
+   sm CTA; >= 768 shows the Login link + a default-size CTA.
+
+   POSITIONING IS THE LEAFLET'S JOB. The kit styles the bar, not the page
+   layout — add `position: sticky; top: 0` (or absolute/fixed over a hero) and
+   toggle `.is-scrolled` on scroll in the consuming page (see COMPONENTS.md).
+   The hamburger is presentational here; wiring a real nav drawer is also the
+   leaflet's job (the kit ships the bar, not the panel).
+   ============================================================================ */
+
+.menu {
+  /* base = Over Light: transparent, dark content */
+  background: transparent;
+  color: var(--text-primary);
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.menu__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-16);
+}
+@media (min-width: 768px) {
+  .menu__inner { padding: var(--space-16) var(--space-40); }
+}
+
+/* Logo — inherits the menu `color`; the SVG paths use fill="currentColor" */
+.menu__logo {
+  display: block;
+  flex: none;
+  color: inherit;
+  text-decoration: none;
+}
+.menu__logo-mark {
+  display: block;
+  width: auto;
+  height: 16px;
+}
+@media (min-width: 768px) {
+  .menu__logo-mark { height: 20px; }
+}
+
+/* Right-side actions cluster */
+.menu__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+@media (min-width: 768px) {
+  .menu__actions { gap: var(--space-32); }
+}
+
+/* Login — a text link that inherits the menu color (NOT the blue link default).
+   No hover token exists in Figma; a subtle opacity dip is the kit's a11y floor. */
+.menu__login {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: var(--text-body-lg-size);
+  line-height: 1.5;
+}
+.menu__login:hover { color: inherit; opacity: var(--opacity-subtle); }
+.menu__login:focus-visible { outline: var(--stroke-2) solid currentColor; outline-offset: 2px; }
+
+/* Hamburger — inherits color; icon stroke = currentColor */
+.menu__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.menu__toggle svg { display: block; width: 32px; height: 32px; }  /* 32 viewBox; bars inset to 24px (Figma menu-icon / menu-cross) */
+.menu__toggle:focus-visible { outline: var(--stroke-2) solid currentColor; outline-offset: 2px; border-radius: var(--radius-xs); }
+
+/* Icon swap: hamburger (open) by default, X (close) when expanded.
+   Scoped under .menu__toggle so these outrank `.menu__toggle svg` above. */
+.menu__toggle .menu__icon--close { display: none; }
+.menu__toggle[aria-expanded="true"] .menu__icon--open  { display: none; }
+.menu__toggle[aria-expanded="true"] .menu__icon--close { display: block; }
+
+/* Breakpoint visibility (768 pivot): Login desktop-only, hamburger mobile-only */
+.menu__login  { display: none; }
+.menu__toggle { display: inline-flex; }
+@media (min-width: 768px) {
+  .menu__login  { display: block; }
+  .menu__toggle { display: none; }
+}
+
+/* Menu CTA — sm below 768 (Figma xs), default size >= 768 (Figma lg). Markup
+   uses the base `.cta-btn`; this shrinks it on mobile (mirrors cta-btn--sm). */
+@media (max-width: 767px) {
+  .menu .cta-btn {
+    height: 32px;
+    padding: 0 var(--space-16);
+    font-size: var(--text-cta-sm-size);
+  }
+}
+
+/* ─── State: Over Dark (transparent, light content) ─────────────────────── */
+.menu.is-over-dark { color: var(--text-inverse); }
+
+/* ─── State: Scrolled (solid header surface) ────────────────────────────── */
+.menu.is-scrolled {
+  background: var(--surface-header);
+  color: var(--text-on-header);
+}
+
+/* Cream theme: no transparent phase — always the Scrolled look */
+[data-theme="cream"] .menu {
+  background: var(--surface-header);
+  color: var(--text-on-header);
+}
