@@ -147,7 +147,11 @@
   --opacity-subtle: 0.8;
 
   /* ─── Primitives: Breakpoints ─────────────────────────────────────────────── */
+  /* Reference values — CSS @media can't read var()s, so media queries hardcode
+     these px. Content pivots at lg (1024); md (768) is the nav/header collapse
+     point only (see Leaflet/AGENTS.md). */
   --breakpoint-xs: 360px;
+  --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1536px;
 
