@@ -1,0 +1,376 @@
+/* ============================================================================
+   Leaflet Kit — hand-authored layer
+   ----------------------------------------------------------------------------
+   Base reset + text-style utilities + aspect/layout helpers + components.
+   References design tokens from tokens.css via var(--…). Load AFTER tokens.css.
+
+   Never redeclare tokens or text-style classes per component — extend with new
+   selectors only.
+   ============================================================================ */
+
+/* ============================================================================
+   BASE RESET
+   ============================================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--text-body-size);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Mabry Pro is the leaflet platform default; this single canonical declaration
+     resolves to it on-platform and falls back to system-ui off-platform (preview).
+     Do NOT re-set font-family per component — that causes FOUT (AGENTS.md). */
+}
+
+/* Media defaults — preserve aspect ratio, never stretch */
+img,
+svg,
+video,
+picture {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Form controls inherit the body font */
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* Links — default to brand blue with hover state already wired */
+a {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--text-link-hover);
+}
+
+/* Focus-visible default — never strip without replacing */
+:focus-visible {
+  outline: var(--stroke-2) solid var(--text-link);
+  outline-offset: 2px;
+}
+
+/* Headings reset (the .text-* utilities below set the actual type) */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--font-weight-bold);
+}
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; }
+
+/* ============================================================================
+   TEXT STYLE UTILITY CLASSES — apply via class= in HTML
+   The 26 text styles from Figma. Never redeclare these properties per
+   component; just apply the class.
+   ============================================================================ */
+
+/* Display — Bold, 120% LH, -1.5% tracking */
+.text-display-3xl { font-weight: var(--font-weight-bold); font-size: var(--text-display-3xl-size); line-height: 1.2;  letter-spacing: -0.015em; }
+.text-display-2xl { font-weight: var(--font-weight-bold); font-size: var(--text-display-2xl-size); line-height: 1.2;  letter-spacing: -0.015em; }
+.text-display-xl  { font-weight: var(--font-weight-bold); font-size: var(--text-display-xl-size);  line-height: 1.2;  letter-spacing: -0.015em; }
+
+/* Headings — Bold, 133% LH; heading-xl keeps display's -1.5% tracking */
+.text-heading-xl  { font-weight: var(--font-weight-bold); font-size: var(--text-heading-xl-size);  line-height: 1.33; letter-spacing: -0.015em; }
+.text-heading-lg  { font-weight: var(--font-weight-bold); font-size: var(--text-heading-lg-size);  line-height: 1.33; letter-spacing: 0; }
+.text-heading-md  { font-weight: var(--font-weight-bold); font-size: var(--text-heading-md-size);  line-height: 1.33; letter-spacing: 0; }
+.text-heading-sm  { font-weight: var(--font-weight-bold); font-size: var(--text-heading-sm-size);  line-height: 1.33; letter-spacing: 0; }
+.text-heading-xs  { font-weight: var(--font-weight-bold); font-size: var(--text-heading-xs-size);  line-height: 1.33; letter-spacing: 0; }
+.text-heading-2xs { font-weight: var(--font-weight-bold); font-size: var(--text-heading-2xs-size); line-height: 1.33; letter-spacing: 0; }
+.text-heading-3xs { font-weight: var(--font-weight-bold); font-size: var(--text-heading-3xs-size); line-height: 1.33; letter-spacing: 0; }
+
+/* Body — Regular */
+.text-body-2xl { font-weight: var(--font-weight-regular); font-size: var(--text-body-2xl-size); line-height: 1.4;  letter-spacing: 0; }
+.text-body-xl  { font-weight: var(--font-weight-regular); font-size: var(--text-body-xl-size);  line-height: 1.4;  letter-spacing: 0; }
+.text-body-lg  { font-weight: var(--font-weight-regular); font-size: var(--text-body-lg-size);  line-height: 1.5;  letter-spacing: 0; }
+.text-body     { font-weight: var(--font-weight-regular); font-size: var(--text-body-size);     line-height: 1.5;  letter-spacing: 0; }
+.text-body-sm  { font-weight: var(--font-weight-regular); font-size: var(--text-body-sm-size);  line-height: 1.5;  letter-spacing: 0.0125em; }
+
+/* Body — Medium (same sizes, weight 500) */
+.text-body-medium-2xl { font-weight: var(--font-weight-medium); font-size: var(--text-body-2xl-size); line-height: 1.4;  letter-spacing: 0; }
+.text-body-medium-xl  { font-weight: var(--font-weight-medium); font-size: var(--text-body-xl-size);  line-height: 1.4;  letter-spacing: 0; }
+.text-body-medium-lg  { font-weight: var(--font-weight-medium); font-size: var(--text-body-lg-size);  line-height: 1.5;  letter-spacing: 0; }
+.text-body-medium     { font-weight: var(--font-weight-medium); font-size: var(--text-body-size);     line-height: 1.5;  letter-spacing: 0; }
+.text-body-medium-sm  { font-weight: var(--font-weight-medium); font-size: var(--text-body-sm-size);  line-height: 1.5;  letter-spacing: 0.0125em; }
+
+/* Label Caps — Bold variants auto-uppercase via text-transform; Regular variants leave case as-is */
+.text-label-caps         { font-weight: var(--font-weight-bold);    font-size: var(--text-label-caps-size);    line-height: 1;    letter-spacing: 0.1em; text-transform: uppercase; }
+.text-label-caps-sm      { font-weight: var(--font-weight-bold);    font-size: var(--text-label-caps-sm-size); line-height: 1;    letter-spacing: 0.1em; text-transform: uppercase; }
+.text-label-caps-regular { font-weight: var(--font-weight-regular); font-size: var(--text-label-caps-size);    line-height: 1;    letter-spacing: 0.1em; }
+.text-label-caps-sm-regular { font-weight: var(--font-weight-regular); font-size: var(--text-label-caps-sm-size); line-height: 1; letter-spacing: 0.1em; }
+
+/* Misc */
+.text-caption { font-weight: var(--font-weight-regular); font-size: var(--text-caption-size); line-height: 1.4; letter-spacing: 0.0125em; }
+.text-micro   { font-weight: var(--font-weight-regular); font-size: var(--text-micro-size);   line-height: 1.4; letter-spacing: 0.02em; }
+
+/* Color modifiers (compose with text-* class) */
+.text-color-primary   { color: var(--text-primary); }
+.text-color-secondary { color: var(--text-secondary); }
+.text-color-tertiary  { color: var(--text-tertiary); }
+.text-color-inverse   { color: var(--text-inverse); }
+.text-color-on-color  { color: var(--text-on-color); }
+.text-color-accent    { color: var(--text-accent); }
+.text-color-link      { color: var(--text-link); }
+
+/* ============================================================================
+   ASPECT RATIO HELPERS — for media + media-like elements
+   ============================================================================ */
+
+.aspect-1-1   { aspect-ratio: 1 / 1; }
+.aspect-4-3   { aspect-ratio: 4 / 3; }
+.aspect-3-2   { aspect-ratio: 3 / 2; }
+.aspect-16-9  { aspect-ratio: 16 / 9; }
+.aspect-9-16  { aspect-ratio: 9 / 16; }
+.aspect-3-4   { aspect-ratio: 3 / 4; }
+.aspect-video { aspect-ratio: 16 / 9; }
+
+.fit-cover > img,  .fit-cover > video,  .fit-cover > picture  { width: 100%; height: 100%; object-fit: cover; }
+.fit-contain > img,.fit-contain > video,.fit-contain > picture { width: 100%; height: 100%; object-fit: contain; }
+
+/* ============================================================================
+   LAYOUT PATTERNS
+   ============================================================================ */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-16);
+}
+@media (min-width: 1024px) {
+  .container { padding: 0 var(--space-32); }
+}
+
+.container--narrow { max-width: 720px; }
+
+.section--full-bleed {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.stack-4  { display: flex; flex-direction: column; gap: var(--space-4); }
+.stack-8  { display: flex; flex-direction: column; gap: var(--space-8); }
+.stack-12 { display: flex; flex-direction: column; gap: var(--space-12); }
+.stack-16 { display: flex; flex-direction: column; gap: var(--space-16); }
+.stack-24 { display: flex; flex-direction: column; gap: var(--space-24); }
+.stack-32 { display: flex; flex-direction: column; gap: var(--space-32); }
+.stack-48 { display: flex; flex-direction: column; gap: var(--space-48); }
+.stack-64 { display: flex; flex-direction: column; gap: var(--space-64); }
+
+.row-8  { display: flex; align-items: center; gap: var(--space-8); }
+.row-16 { display: flex; align-items: center; gap: var(--space-16); }
+.row-24 { display: flex; align-items: center; gap: var(--space-24); }
+.row-32 { display: flex; align-items: center; gap: var(--space-32); }
+
+.section { padding: var(--space-48) 0; }
+@media (min-width: 1024px) {
+  .section { padding: var(--space-96) 0; }
+}
+
+/* ============================================================================
+   COMPONENT — Button (CTA)
+   Mapped 1:1 to Figma "Button (slim)" — eaPdzBQjxfakthQhIgQfL0 / 25:107.
+   ----------------------------------------------------------------------------
+   Axes (matches Figma 4-axis structure):
+     Variant: (base) primary | --secondary | --ghost   (--accent = legacy, not in Figma)
+     Size:    (base) default | --sm | --lg | --icon
+     On:      (base) light | --on-dark
+     State:   default | :hover | [disabled] | :focus-visible
+
+   Defaults baked into `.cta-btn` = Primary / default / On Light / Default —
+   matches the Figma component's default property values.
+
+   FORCE-STATE HOOKS: every state pseudo-class is paired with an `.is-*` class
+   in the same selector, so the review harness can DISPLAY a state without real
+   interaction (e.g. show all buttons "hovered" at once). These classes are
+   never added in real leaflets — harmless in production, zero rule duplication.
+
+   FOCUS (new vs. legacy starter, which had none): 2px brand-blue ring per
+   AGENTS.md + DESIGN.md accessibility floor; white ring on dark.
+   ============================================================================ */
+
+.cta-btn {
+  /* base = size default + variant primary + on light + default state */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  height: 40px;
+  padding: 0 var(--space-24);
+  border: 0;
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--text-cta-default-size);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 120ms, border-color 120ms, color 120ms, transform 80ms;
+
+  /* Primary on Light defaults */
+  background: var(--cta-primary);
+  color: var(--text-on-color);
+  box-shadow: var(--shadow-button);
+}
+.cta-btn:hover,
+.cta-btn.is-hover { background: var(--cta-primary-hover); }
+.cta-btn:active,
+.cta-btn.is-active { transform: translateY(1px); }
+
+/* Focus — 2px brand ring (the legacy starter button had no focus state) */
+.cta-btn:focus-visible,
+.cta-btn.is-focus {
+  outline: var(--stroke-2) solid var(--cta-primary);
+  outline-offset: var(--stroke-2);
+}
+
+.cta-btn[disabled],
+.cta-btn.is-disabled {
+  background: var(--cta-disabled);
+  color: var(--text-on-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.cta-btn[disabled]:hover,
+.cta-btn.is-disabled.is-hover { background: var(--cta-disabled); } /* lock hover */
+
+/* ─── Sizes ─────────────────────────────────────────────────────────────── */
+
+.cta-btn--sm {
+  height: 32px;
+  padding: 0 var(--space-16);
+  font-size: var(--text-cta-sm-size);
+}
+.cta-btn--lg {
+  height: 54px;
+  padding: 0 var(--space-32);
+  font-size: var(--text-cta-lg-size);
+  font-weight: var(--font-weight-bold);
+}
+.cta-btn--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+/* ─── Variant: Primary ──────────────────────────────────────────────────── */
+/* (defaults already in `.cta-btn` base; explicit class is a no-op for codegen) */
+.cta-btn--primary { /* same as base, retained for explicit Code Connect mapping */ }
+
+/* Primary on Dark */
+.cta-btn--primary.cta-btn--on-dark,
+.cta-btn--on-dark { /* base variant is primary, so bare --on-dark = primary on dark */
+  background: var(--cta-inverse);
+  color: var(--text-on-cta-inverse);
+}
+.cta-btn--primary.cta-btn--on-dark:hover,
+.cta-btn--primary.cta-btn--on-dark.is-hover,
+.cta-btn--on-dark:hover,
+.cta-btn--on-dark.is-hover { background: var(--cta-inverse-hover); }
+.cta-btn--primary.cta-btn--on-dark[disabled],
+.cta-btn--primary.cta-btn--on-dark.is-disabled,
+.cta-btn--on-dark[disabled],
+.cta-btn--on-dark.is-disabled {
+  background: var(--cta-disabled-inverse);
+  color: var(--text-on-disabled);
+}
+
+/* On-dark focus — white ring */
+.cta-btn--on-dark:focus-visible,
+.cta-btn--on-dark.is-focus { outline-color: var(--cta-inverse); }
+
+/* ─── Variant: Secondary ────────────────────────────────────────────────── */
+
+.cta-btn--secondary {
+  background: transparent;
+  color: var(--text-link);
+  border: var(--stroke-1) solid var(--border-cta);
+  box-shadow: none;
+}
+.cta-btn--secondary:hover,
+.cta-btn--secondary.is-hover {
+  background: transparent;
+  color: var(--text-link-hover);
+  border-color: var(--border-cta-hover);
+}
+.cta-btn--secondary[disabled],
+.cta-btn--secondary.is-disabled {
+  background: transparent;
+  color: var(--text-on-disabled);
+  border-color: var(--border-disabled);
+}
+
+/* Secondary on Dark */
+.cta-btn--secondary.cta-btn--on-dark {
+  color: var(--text-on-color);
+  border-color: var(--border-cta-inverse);
+}
+.cta-btn--secondary.cta-btn--on-dark:hover,
+.cta-btn--secondary.cta-btn--on-dark.is-hover {
+  color: var(--text-on-color);
+  border-color: var(--border-cta-inverse-hover);
+}
+.cta-btn--secondary.cta-btn--on-dark[disabled],
+.cta-btn--secondary.cta-btn--on-dark.is-disabled {
+  color: var(--text-on-disabled);
+  border-color: var(--border-disabled-inverse);
+}
+
+/* ─── Variant: Ghost ────────────────────────────────────────────────────── */
+
+.cta-btn--ghost {
+  background: transparent;
+  color: var(--text-link);
+  box-shadow: none;
+}
+.cta-btn--ghost:hover,
+.cta-btn--ghost.is-hover {
+  background: transparent;
+  color: var(--text-link-hover);
+}
+.cta-btn--ghost[disabled],
+.cta-btn--ghost.is-disabled {
+  background: transparent;
+  color: var(--text-on-disabled);
+}
+
+/* Ghost on Dark */
+.cta-btn--ghost.cta-btn--on-dark { color: var(--text-on-color); }
+/* (no :hover treatment — Figma token gap: no text-on-color-hover) */
+.cta-btn--ghost.cta-btn--on-dark[disabled],
+.cta-btn--ghost.cta-btn--on-dark.is-disabled { color: var(--text-on-disabled); }
+
+/* ─── Variant: Accent (legacy, not in Figma slim button) ────────────────── */
+/* Retained for marketing CTAs that want the orange treatment outside the slim
+   button matrix. NOTE: DESIGN.md boundary — brand orange is never used on a
+   real CTA button. Will be removed if/when Figma adds an Accent variant. */
+.cta-btn--accent {
+  background: var(--cta-accent);
+  color: var(--text-on-color);
+  box-shadow: var(--shadow-button);
+}
+.cta-btn--accent:hover,
+.cta-btn--accent.is-hover { background: var(--cta-accent-hover); }
+.cta-btn--accent[disabled],
+.cta-btn--accent.is-disabled {
+  background: var(--cta-disabled);
+  color: var(--text-on-disabled);
+}
