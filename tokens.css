@@ -214,6 +214,7 @@
   --text-on-color: var(--color-grey-0);
   --text-on-cta-inverse: var(--color-grey-900);
   --text-on-disabled: var(--color-grey-500);
+  --text-on-header: var(--color-grey-900);
   --text-primary: var(--color-grey-900);
   --text-secondary: var(--color-grey-700);
   --text-tertiary: var(--color-grey-500);
@@ -248,6 +249,7 @@
   --icon-inverse: var(--color-grey-0);
   --icon-on-color: var(--color-grey-0);
   --icon-on-cta-inverse: var(--color-grey-900);
+  --icon-on-header: var(--color-grey-900);
   --icon-primary: var(--color-grey-900);
   --icon-secondary: var(--color-grey-700);
   --icon-tertiary: var(--color-grey-500);
@@ -319,6 +321,7 @@
 
   /* ─── Semantics: Text ───────────────────────────────────────────── */
   --text-accent: var(--color-peach-600);
+  --text-on-header: var(--color-grey-0);
   --text-primary: var(--color-grey-0);
   --text-secondary: var(--color-grey-200);
   --text-tertiary: var(--color-grey-300);
@@ -334,6 +337,7 @@
 
   /* ─── Semantics: Icons ──────────────────────────────────────────── */
   --icon-accent: var(--color-peach-600);
+  --icon-on-header: var(--color-grey-0);
   --icon-primary: var(--color-grey-0);
   --icon-secondary: var(--color-grey-200);
   --icon-tertiary: var(--color-grey-300);
@@ -353,6 +357,10 @@
   --surface-header: var(--color-indigo-800);
   --surface-page: var(--color-cream-50);
   --surface-page-alt: var(--color-cream-100);
+
+  /* ─── Semantics: Text + Icons (light, for the dark cream header) ─── */
+  --text-on-header: var(--color-grey-0);
+  --icon-on-header: var(--color-grey-0);
 
 }
 
